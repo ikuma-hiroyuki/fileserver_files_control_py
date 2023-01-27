@@ -5,7 +5,7 @@ from pathlib import Path
 
 import dotenv
 
-if 9 <= datetime.now().hour <= 22:
+if 8 <= datetime.now().hour <= 22:
     dotenv.load_dotenv()
 
     backup_dir = Path(os.getenv('ZAIKO_BACKUP_DIR'))
