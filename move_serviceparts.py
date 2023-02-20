@@ -25,7 +25,10 @@ if box_file.exists():
     shutil.copy(server_file, box_file)
     file_util_type = 'copy'
 else:
-    shutil.move(server_file, box_file)
-    file_util_type = 'move'
+    try:
+        shutil.move(server_file, box_file)
+        file_util_type = 'move'
+    except FileNotFoundError:
+        file_util_type = 'file not exist'
 
 line_notify(file_util_type)
