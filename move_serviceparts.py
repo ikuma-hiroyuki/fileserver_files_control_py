@@ -1,6 +1,6 @@
 import os
 import shutil
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -15,7 +15,8 @@ backup_dir = serviceparts_dir / 'backup'
 box_dir = Path(os.getenv('BOX_DIR'))
 box_file = box_dir / os.getenv('FILE_NAME')
 
-shutil.copy(server_file, backup_dir / f'{box_file.stem}_{datetime.today().strftime("%Y%m%d")}{box_file.suffix}')
+yesterday = datetime.today() - timedelta(days=1)
+shutil.copy(server_file, backup_dir / f'{box_file.stem}_{yesterday.strftime("%Y%m%d")}{box_file.suffix}')
 
 file_util_type = ''
 
