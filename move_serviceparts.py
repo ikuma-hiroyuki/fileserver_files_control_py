@@ -16,19 +16,19 @@ box_dir = Path(os.getenv('BOX_DIR'))
 box_file = box_dir / os.getenv('FILE_NAME')
 
 yesterday = datetime.today() - timedelta(days=1)
-shutil.copy(server_file, backup_dir / f'{box_file.stem}_{yesterday.strftime("%Y%m%d")}{box_file.suffix}')
 
 file_util_type = ''
+if server_file.exists():
+    shutil.copy(server_file, backup_dir / f'{box_file.stem}_{yesterday.strftime("%Y%m%d")}{box_file.suffix}')
 
-# box_fileが存在していたらコピー (server_fileが存在していればcreate_serviceparts_tsv_pyでSOKEN.txtに追記する)
-if box_file.exists():
-    shutil.copy(server_file, box_file)
-    file_util_type = 'copy'
-else:
-    try:
+    # box_fileが存在していたらコピー (server_fileが存在していればcreate_serviceparts_tsv_pyでSOKEN.txtに追記する)
+    if box_file.exists():
+        shutil.copy(server_file, box_file)
+        file_util_type = 'copy'
+    else:
         shutil.move(server_file, box_file)
         file_util_type = 'move'
-    except FileNotFoundError:
-        file_util_type = 'file not exist'
+else:
+    file_util_type = 'server file not exist'
 
 line_notify(file_util_type)
