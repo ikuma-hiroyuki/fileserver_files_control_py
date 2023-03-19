@@ -21,10 +21,13 @@ file_util_type = ''
 if server_file.exists():
     shutil.copy(server_file, backup_dir / f'{box_file.stem}_{yesterday.strftime("%Y%m%d")}{box_file.suffix}')
 
-    # box_fileが存在していたらコピー (server_fileが存在していればcreate_serviceparts_tsv_pyでSOKEN.txtに追記する)
+    # box_fileが存在していたら追記
     if box_file.exists():
-        shutil.copy(server_file, box_file)
-        file_util_type = 'copy'
+        with open(box_file, 'a') as f:
+            with open(server_file, 'r') as f2:
+                f.write(f2.read())
+        file_util_type = 'append'
+        os.remove(server_file)
     else:
         shutil.move(server_file, box_file)
         file_util_type = 'move'
