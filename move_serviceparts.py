@@ -23,8 +23,8 @@ if server_file.exists():
 
     # box_fileが存在していたら追記
     if box_file.exists():
-        with open(box_file, 'a') as f:
-            with open(server_file, 'r') as f2:
+        with open(box_file, 'a', encoding='utf-8') as f:
+            with open(server_file, 'r', encoding='utf-8') as f2:
                 f.write(f2.read())
         file_util_type = 'append'
         os.remove(server_file)
