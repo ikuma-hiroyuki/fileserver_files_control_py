@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 from line_notify import line_notify
 
 load_dotenv()
@@ -13,8 +14,6 @@ def move_file():
     serviceparts_dir = Path(os.getenv('SERVICE_PARTS_DIR'))
     server_file = serviceparts_dir / os.getenv('FILE_NAME')
     backup_dir = serviceparts_dir / 'backup'
-
-    box_dir = Path(os.getenv('BOX_DIR'))
     box_file = box_dir / os.getenv('FILE_NAME')
 
     yesterday = datetime.today() - timedelta(days=1)
@@ -39,6 +38,10 @@ def move_file():
 
 
 if __name__ == '__main__':
-    # 月曜日から金曜日のみ実行
-    if datetime.today().weekday() < 5:
-        move_file()
+    box_dir = Path(os.getenv('BOX_DIR'))
+    if not box_dir.exists():
+        line_notify('エラー!! BOXにアクセスできません。')
+    else:
+        # 月曜日から金曜日のみ実行
+        if datetime.today().weekday() < 5:
+            move_file()
