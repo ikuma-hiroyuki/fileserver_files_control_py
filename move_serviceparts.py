@@ -33,6 +33,7 @@ def move_file():
             file_util_type = 'move'
     else:
         file_util_type = 'server file not exist'
+        line_notify(file_util_type)
 
 
 if __name__ == '__main__':
